@@ -4,7 +4,7 @@ alert("¡Bienvenida y bienvenido a nuestro sitio web!");
 // 2. Declara una variable llamada nombre y asígnale el valor "Luna".
 let nombre = "Luna";
 
-// 3. Crea una variable llamada edady asígnale el valor 25.
+// 3. Crea una variable llamada edad y asígnale el valor 25.
 let edad = 25;
 
 // 4. Establece una variable numeroDeVentas y asígnale el valor 50.
@@ -38,4 +38,3 @@ if (age >= 18) {
 } else {
     alert("Lo sentimos. Debes ser mayor de edad para obtener tu licencia de conducir");
 }
-
