@@ -10,7 +10,6 @@ const usuarios = [
   { nombre: "Bob", edad: 30 },
 ];
 console.table(usuarios); //? Imprime datos en forma de tabla
-
 //? Este code hara que si o si ingrese
 while (respuesta == false) {
   let rspt = prompt("Por favor indicar un número entre el 1 y 10:");
