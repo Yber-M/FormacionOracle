@@ -11,13 +11,19 @@ const usuarios = [
 ];
 console.table(usuarios); //? Imprime datos en forma de tabla
 
+//? Este code hara que si o si ingrese
 while (respuesta == false) {
   let rspt = prompt("Por favor indicar un número entre el 1 y 10:");
-  if (rspt == numAdivinar) {
-    alert("Genial! El número " + numAdivinar + " es el correcto.");
-    respuesta = true;
+  if (rspt <= 10 && rspt >= 1) {
+    if (rspt == numAdivinar) {
+      //OjO: Al usar tilde invertida podemos ingresar directamente la variable
+      alert(`Genial! El número ${rspt} es el correcto.`);
+      respuesta = true;
+    } else {
+      alert("Numero incorrecto");
+      respuesta = false;
+    }
   } else {
-    alert("Numero incorrecto");
-    respuesta = false;
+    alert('El número debe ser entre 1 y 10. Intente nuevamente');
   }
 }
