@@ -18,7 +18,6 @@ while (rspt != numAdivinar) {
   rspt = prompt("Por favor indicar un número entre el 1 y 10:");
   if (rspt <= 10 && rspt >= 1) {
     if (rspt == numAdivinar) {
-      //OjO: Al usar tilde invertida podemos ingresar directamente la variable
       alert(`Genial! El número ${rspt} es el correcto. Tu N° de intentos fue: ${numIntentos} ${palabraVeces}`);
     } else {
       if (rspt > numAdivinar) {
@@ -33,4 +32,8 @@ while (rspt != numAdivinar) {
   }
   palabraVeces = 'veces';
   numIntentos++;
+  if (numIntentos > 3) {
+    alert('Superaste el tus 3 intentos :(');
+    break; // OjO -> Acá marcamos el fin del bucle
+  }
 }
