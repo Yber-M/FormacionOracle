@@ -30,7 +30,6 @@ while (rspt != numAdivinar) {
   } else {
     alert('El número debe ser entre 1 y 10. Intente nuevamente');
   }
-  palabraVeces = 'veces';
   numIntentos++;
   if (numIntentos > 3) {
     alert('Superaste el tus 3 intentos :(');
