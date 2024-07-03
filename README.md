@@ -1,1 +1,1 @@
-# Acá estará todo lo que se haga en el programa de Oracle One y Alura Latam
+# Lógica de la programación con JavaScript
