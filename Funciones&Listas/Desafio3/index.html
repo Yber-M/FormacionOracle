@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio 3</title>
+</head>
+
+<body>
+    <!--* Calcular IMC -->
+    <div>
+        <h1>Calcular IMC (Índice de Masa Corporal)</h1>
+        <img width="300px" src="https://elcomercio.pe/resizer/JXnarrIQKRDebZENSmcs-z2eqOU=/620x0/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/CDTG4NUUWNC4ZHEEEP2DRYUU5Q.jpg" alt="tablaIMC">
+        <br> <br>
+        Altura: <input type="number" name="altura" id="altura"> m
+        <br> <br>
+        Peso: <input type="number" name="peso" id="peso"> kg
+        <br> <br>
+        <button onclick="mostrarValorImc()">CALCULAR</button>
+
+        <h3 id="imcResultado"></h3>
+    </div>
+    <hr>
+    <!--* Calcular el valor del factorial -->
+    <div>
+        <h1>Calcular el valor del factorial</h1>
+        Número para hallar la factorial: <input type="number" name="numFactorial" id="numFactorial">
+        <button onclick="monstrarResultadosFactorial()">CALCULAR</button>
+
+        <h3 id="mostrarFactorial"></h3>
+    </div>
+    <hr>
+    <!--* Conversion de $ a S/ -->
+    <div>
+        <h1>Conversión de ($)Dólares a (S/)Soles</h1>
+        Ingrese el monto de dólares que desea convertir: $ <input type="number" name="dolares" id="dolares"> 
+        <button onclick="mostrarConversion()">CONVERTIR</button>
+        <h3 id="conversionDolares"></h3>
+    </div>
+    <!--* Calcular area y el perimetro de una sala RECTANGULAR -->
+    <div>
+        <h1>Sala Rectangular</h1>
+        <img width="200px" src="https://th.bing.com/th/id/OIP.cWXJGiEA3adl_JOIyt4E5QHaEI?rs=1&pid=ImgDetMain"
+            alt="salaCircular">
+        <div>
+
+            Largo: <input id="largo" type="number"> cm <br><br>
+            Ancho: <input id="ancho" type="number"> cm
+            <button onclick="calcularBtnRectangular()">CALCULAR</button>
+            <br><br>
+            <div id="resultadoRectangular"></div>
+        </div>
+    </div>
+    <hr>
+    <!--* Calcular area y el perimetro de una sala CIRCULAR -->
+    <div>
+        <h1>Sala Circular</h1>
+        <img width="128px" src="https://cursosonlineweb.com/wp-content/uploads/sites/51/2019/01/RADIO.jpg3_.jpg"
+            alt="salaCircular">
+        <div>
+            Radio: <input id="radio" type="number"> <button onclick="calcularBtnCircular()">CALCULAR</button>
+            <br><br>
+            <div id="resultadoCircular"></div>
+        </div>
+    </div>
+    <hr>
+    <!--* Tabla de Multiplicar -->
+    <div>
+        <h1>Tabla de Multiplicar</h1>
+        Indicar número : <input id="numIngresado" type="number">
+        <button onclick="btnMostrarTabla()">MOSTRAR</button>
+        <h3 id="tituloTabla"></h3>
+        <h4 id="tablaResult"></h4>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
