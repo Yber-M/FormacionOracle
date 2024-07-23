@@ -1,11 +1,25 @@
 let numSecret = 0;
 let numIntentos = 0;
+let listNumSorte = [];
+let numMaximo = 10;
 
 
 condicionesInciales();
 
 function generarNumSecret() {
-    return Math.floor(Math.random() * 10) + 1;
+    let numGenerado = Math.floor(Math.random() * numMaximo) + 1;
+    console.log(listNumSorte);
+
+    if (listNumSorte.includes(numGenerado)) {
+        if (listNumSorte.length == numMaximo) {
+            asignarTexto('p', `Número máximo alcanzado. Recargue la página F5`)
+        } else {
+            return generarNumSecret();
+        }
+    } else {
+        listNumSorte.push(numGenerado);
+        return numGenerado;
+    }
 }
 
 function asignarTexto(elemento, texto) {
@@ -45,7 +59,7 @@ function reiniciarGamer() {
 
 function condicionesInciales() {
     asignarTexto('h1', 'Juego del número secreto');
-    asignarTexto('p', 'Ingreso un número del 1 al 100');
+    asignarTexto('p', `Ingreso un número del 1 al ${numMaximo}`);
     numSecret = generarNumSecret();
     numIntentos = 1;
     console.log(numSecret);
