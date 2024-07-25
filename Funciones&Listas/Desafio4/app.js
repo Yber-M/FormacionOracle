@@ -77,10 +77,30 @@ function devolverPosicion(num) {
         console.log(`El elemento ${num} no se encuentra en la lista. [${posicion}]`);
     }
 }
-// 10. Crea una función que reciba dos listas de números del mismo tamaño y devuelva una nueva
-// lista con la suma de los elementos uno a uno.
-// 11. Crea una función que reciba una lista de números y devuelva una nueva lista con el cuadrado de
-// cada número.
+// 10. Crea una función que reciba dos listas de números del mismo tamaño y devuelva una nueva lista con la suma de los elementos uno a uno.
+let lista1 = [2, 4, 5, 10];
+let lista2 = [23, 41, 5, 1];
+let sumaListas = [];
+function sumListasNum(lista1, lista2) {
+    if (lista1.length !== lista2.length) {
+        console.error('Las listas no tienen el mismo tamaño');
+    }
+    for (let index = 0; index < lista1.length; index++) {
+        sumaListas.push(lista1[index] + lista2[index]);
+    }
+
+    return console.log(`La suma de las 2 listas es = [${sumaListas}]`);
+}
+
+// 11. Crea una función que reciba una lista de números y devuelva una nueva lista con el cuadrado de cada número.
+let cuadradoLst = [];
+function cuadradoDeListas(lista1) {
+    for (let index = 0; index < lista1.length; index++) {
+        cuadradoLst.push(lista1[index] * lista1[index]);
+    }
+
+    return console.log(`El cuadrado de cada número de LA listas es: \n[${cuadradoLst}]`);
+}
 function mostrarFunciones() {
     mostrarLenguageProgramacion();
     mostrarListaInver();
@@ -88,6 +108,7 @@ function mostrarFunciones() {
     mostrarNumMayorMenor();
     devolverSumAllElements();
     devolverPosicion(50)
+    sumListasNum(lista1, lista2);
+    cuadradoDeListas(lista1);
 }
-
 mostrarFunciones();
