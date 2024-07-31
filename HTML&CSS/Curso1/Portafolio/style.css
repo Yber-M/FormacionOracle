@@ -1,0 +1,19 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #0A1128;
+    color: #FEFCFB;
+}
+
+p { 
+    margin: 10px;
+    border: 2px solid white;
+    padding: 5px;
+}
+
+.destacar-text {
+    color: #18B2DC;
+}
