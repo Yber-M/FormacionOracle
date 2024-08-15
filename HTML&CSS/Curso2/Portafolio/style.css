@@ -78,3 +78,13 @@ body {
     background-color: #18b2dc17;
     transition: 1s ease;
 }
+
+.footer {
+    background-color: #18B2DC;
+    padding: 24px;
+    color: #0A1128;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+}
