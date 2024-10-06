@@ -41,6 +41,12 @@
     display: none;
 }
 
+/* Section Videos */
+.videos__item {
+    height: 303px;
+    width: 280px;
+}
+
 /* Footer */
 .rodapie__container {
     display: flex;
