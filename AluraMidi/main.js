@@ -7,7 +7,7 @@ const listaDeTeclas = document.querySelectorAll('.tecla');
 
 let cont = 0;
 
-while (cont < listaDeTeclas.length) {
+for (let cont = 0; cont < listaDeTeclas.length; cont++) {
     const tecla = listaDeTeclas[cont];
     const sonidoSeleccionado = tecla.classList[1];
     const idAudio = `#sonido_${sonidoSeleccionado}`;
@@ -16,6 +16,4 @@ while (cont < listaDeTeclas.length) {
     tecla.onclick = function () {
         playSonido(idAudio);
     };
-
-    cont++;
 }
