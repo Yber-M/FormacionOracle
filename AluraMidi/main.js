@@ -1,3 +1,7 @@
-alert('Hello World');
+function playSonidoPom() {
+    document.querySelector('#sonido_tecla_pom').play();
+}
 
-document.querySelector('.tecla_pom');
+const listaDeTeclas = document.querySelectorAll('.tecla');
+
+listaDeTeclas[0].onclick = playSonidoPom;
