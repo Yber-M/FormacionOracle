@@ -30,22 +30,25 @@ inputEnfoqueMusic.addEventListener('change', () => {
 });
 
 btnCorto.addEventListener('click', () => {
+    tiempoTranscurridoSegundos = 300;
     cambiarContexto('descanso-corto');
     btnCorto.classList.add('active');
 })
 
 btnEnfoque.addEventListener('click', () => {
+    tiempoTranscurridoSegundos = 1500;
     cambiarContexto('enfoque');
     btnEnfoque.classList.add('active');
 })
 
 btnLargo.addEventListener('click', () => {
+    tiempoTranscurridoSegundos = 900;
     cambiarContexto('descanso-largo');
     btnLargo.classList.add('active');
 })
 
 function cambiarContexto(contexto) {
-
+    mostrarTiempo();
     botones.forEach(function (contexto) {
         contexto.classList.remove('active');
     })
@@ -100,8 +103,9 @@ function reiniciar() {
 }
 
 function mostrarTiempo() {
-    const tiempo = tiempoTranscurridoSegundos;
-    TiempoEnPantalla.innerHTML = `${tiempo}`;
+    const tiempo = new Date(tiempoTranscurridoSegundos * 1000);
+    const tiempoFormateado = tiempo.toLocaleTimeString('es-PE', { minute: '2-digit', second: '2-digit'});
+    TiempoEnPantalla.innerHTML = `${tiempoFormateado}`;
 }
 
 mostrarTiempo();
