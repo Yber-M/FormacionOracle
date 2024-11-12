@@ -9,6 +9,7 @@ const inputEnfoqueMusic = document.querySelector('#alternar-musica');
 const musica = new Audio('./sonidos/luna-rise-part-one.mp3');
 const botonIniciarPausar = document.querySelector('#start-pause');
 const textIniciarPausa = document.querySelector('#start-pause span')
+const iconoIniciarPausar = document.querySelector(".app__card-primary-butto-icon");
 const TiempoEnPantalla = document.querySelector('#timer');
 
 // Musicas Routes
@@ -92,14 +93,17 @@ function iniciarPausar() {
         reiniciar();
         return
     }
-    audioPlay.play();
+    iconoIniciarPausar.setAttribute('src', `./imagenes/pause.png`);
     idIntervalo = setInterval(cuentaRegresiva, 1000);
+    audioPlay.play();
+
 }
 
 function reiniciar() {
+    iconoIniciarPausar.setAttribute('src', `./imagenes/play_arrow.png`);
+    textIniciarPausa.textContent = "Comenzar";
     clearInterval(idIntervalo);
     idIntervalo = null;
-    textIniciarPausa.textContent = "Comenzar";
 }
 
 function mostrarTiempo() {
