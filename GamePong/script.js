@@ -13,6 +13,7 @@ let anguloPelota = 0; // Ángulo de rotación de la pelota
 let mostrarDerrota = false; // Controla si se muestra la pantalla de derrota
 let mostrarVictoria = false; // Controla si se muestra la pantalla de victoria
 let confetiLanzado = false; // Controla si ya se lanzó el confeti
+let narrado = false; // Controla si ya se narró el marcador
 
 // Variables para las raquetas
 let anchoRaqueta = 15;
@@ -34,8 +35,9 @@ let incrementoVelocidadRaqueta = 2;
 let puntosJugador = 0;
 let puntosComputadora = 0;
 
-// Imágenes
+// Imágenes y sonidos
 let imgFondo, imgRaquetaJugador, imgRaquetaComputadora, imgPelota;
+let sonidoDerrota, sonidoRebote; // Sonidos
 
 function preload() {
     // Cargar las imágenes
@@ -43,6 +45,10 @@ function preload() {
     imgRaquetaJugador = loadImage("Sprites/barra1.png");
     imgRaquetaComputadora = loadImage("Sprites/barra2.png");
     imgPelota = loadImage("Sprites/bola.png");
+
+    // Cargar los sonidos
+    sonidoDerrota = loadSound("Sprites/game_over.wav");
+    sonidoRebote = loadSound("Sprites/bounce.wav");
 }
 
 function setup() {
@@ -73,6 +79,10 @@ function draw() {
 
     if (juegoPausado) {
         mostrarMensajeInicio();
+        if (!narrado) {
+            narrarMarcador();
+            narrado = true; // Se asegura de que narre una sola vez
+        }
         return;
     }
 
@@ -89,7 +99,12 @@ function draw() {
     verificarColisionRaqueta(xJugador, yJugador);
     verificarColisionRaqueta(xComputadora, yComputadora);
 }
-
+function narrarMarcador() {
+    const mensaje = `El marcador está ${puntosJugador} a ${puntosComputadora}`;
+    const narrador = new SpeechSynthesisUtterance(mensaje);
+    narrador.lang = "es-ES"; // Idioma español
+    window.speechSynthesis.speak(narrador);
+}
 
 // Función para dibujar la pelota
 function dibujarPelota() {
@@ -118,7 +133,6 @@ function generarVelocidadAleatoriaCPU() {
     return random(5, velocidadMaximaComputadora); // Generar una velocidad entre 2 y el máximo definido
 }
 
-
 // Verificar colisiones con las paredes
 function verificarColisionPared() {
     if (yPelota - diametroPelota / 2 < 0 || yPelota + diametroPelota / 2 > height) {
@@ -127,9 +141,11 @@ function verificarColisionPared() {
 
     if (xPelota - diametroPelota / 2 < 0) {
         puntosComputadora++;
+        narrado = false; // Permitir narrar al inicio del juego
         manejarDerrota();
     } else if (xPelota + diametroPelota / 2 > width) {
         puntosJugador++;
+        narrado = false; // Permitir narrar al inicio del juego
         manejarVictoria();
     }
 }
@@ -162,6 +178,10 @@ function manejarDerrota() {
     juegoPausado = true;
     mostrarDerrota = true;
 
+    if (sonidoDerrota.isLoaded()) {
+        sonidoDerrota.play(); // Reproducir el sonido de derrota
+    }
+
     // Reiniciar posiciones de la pelota y las raquetas
     yJugador = height / 2 - altoRaqueta / 2;
     yComputadora = height / 2 - altoRaqueta / 2;
@@ -173,7 +193,6 @@ function manejarDerrota() {
     velocidadYPelota = 3;
     velocidadComputadora = 4;
 }
-
 // Dibujar las raquetas
 function dibujarRaqueta(x, y, imgRaqueta) {
     imageMode(CORNER);
@@ -250,14 +269,16 @@ function verificarColisionRaqueta(x, y) {
         velocidadXPelota = constrain(velocidadXPelota, -velocidadMaximaPelota, velocidadMaximaPelota);
         velocidadYPelota = constrain(velocidadYPelota, -velocidadMaximaPelota, velocidadMaximaPelota);
 
+        if (sonidoRebote && sonidoRebote.isLoaded()) {
+            sonidoRebote.play(); // Reproducir sonido al colisionar con ambas raquetas
+        }
+
         // Cambiar la velocidad de la CPU al colisionar
         if (x === xComputadora) {
             velocidadComputadora = generarVelocidadAleatoriaCPU();
-            console.log(velocidadComputadora);
         }
     }
 }
-
 
 // Mostrar pantalla de derrota
 function mostrarPantallaPerdida() {
@@ -293,7 +314,15 @@ function lanzarConfeti() {
     }
 }
 
-// Iniciar el juego con la barra espaciadora
+// Mostrar puntuaciones
+function mostrarPuntuacion() {
+    fill(255);
+    textSize(32);
+    textAlign(CENTER, TOP);
+    text(puntosJugador, width * 0.25, 20);
+    text(puntosComputadora, width * 0.75, 20);
+}
+
 function iniciarConEspacio(event) {
     if (event.code === "Space") {
         if (mostrarDerrota) {
@@ -307,14 +336,6 @@ function iniciarConEspacio(event) {
     }
 }
 
-// Mostrar puntuaciones
-function mostrarPuntuacion() {
-    fill(255);
-    textSize(32);
-    textAlign(CENTER, TOP);
-    text(puntosJugador, width * 0.25, 20);
-    text(puntosComputadora, width * 0.75, 20);
-}
 
 // Mostrar mensaje de inicio
 function mostrarMensajeInicio() {
