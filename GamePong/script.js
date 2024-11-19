@@ -7,7 +7,8 @@ let velocidadYPelota = 3;
 let incrementoVelocidad = 0.5;
 let diametroPelota = 30;
 let juegoPausado = true;
-let velocidadMaximaPelota = 15;
+let velocidadMaximaPelota = 20;
+let anguloPelota = 0; // Ángulo de rotación de la pelota
 
 let mostrarDerrota = false; // Controla si se muestra la pantalla de derrota
 let mostrarVictoria = false; // Controla si se muestra la pantalla de victoria
@@ -26,22 +27,22 @@ let raquetaJugadorVelocidad = 10;
 let xComputadora;
 let yComputadora;
 let velocidadComputadora = 4;
-let velocidadMaximaComputadora = 6;
+let velocidadMaximaComputadora = 20;
 let incrementoVelocidadRaqueta = 2;
 
 // Puntuaciones
 let puntosJugador = 0;
 let puntosComputadora = 0;
 
-// Imagen de fondo
-let imgFondo;
+// Imágenes
+let imgFondo, imgRaquetaJugador, imgRaquetaComputadora, imgPelota;
 
 function preload() {
-    // Cargar la imagen de fondo
-    imgFondo = loadImage("Sprites/fondo2.png");
-    imgRaquetaJugador = loadImage('Sprites/barra1.png');
-    imgRaquetaComputadora = loadImage('Sprites/barra2.png');
-    imgPelota = loadImage('Sprites/bola.png');
+    // Cargar las imágenes
+    imgFondo = loadImage("Sprites/fondo1.png");
+    imgRaquetaJugador = loadImage("Sprites/barra1.png");
+    imgRaquetaComputadora = loadImage("Sprites/barra2.png");
+    imgPelota = loadImage("Sprites/bola.png");
 }
 
 function setup() {
@@ -92,14 +93,31 @@ function draw() {
 
 // Función para dibujar la pelota
 function dibujarPelota() {
-    image(imgPelota, xPelota - diametroPelota / 2, yPelota - diametroPelota / 2, diametroPelota, diametroPelota);
+    push(); // Guardar el estado actual de la transformación
+    translate(xPelota, yPelota); // Mover el origen al centro de la pelota
+    rotate(anguloPelota); // Aplicar la rotación basada en el ángulo actual
+    imageMode(CENTER); // Asegurarse de que la imagen se dibuje desde su centro
+    image(imgPelota, 0, 0, diametroPelota, diametroPelota); // Dibujar la imagen de la pelota
+    pop(); // Restaurar el estado de la transformación
 }
 
 // Función para mover la pelota
 function moverPelota() {
     xPelota += velocidadXPelota;
     yPelota += velocidadYPelota;
+
+    // Calcular la velocidad total de la pelota
+    let velocidadTotal = sqrt(velocidadXPelota ** 2 + velocidadYPelota ** 2);
+
+    // Ajustar el ángulo de rotación según la velocidad total
+    anguloPelota += map(velocidadTotal, 0, velocidadMaximaPelota, 0.05, 0.2);
 }
+
+// Generar una velocidad aleatoria para la raqueta de la CPU
+function generarVelocidadAleatoriaCPU() {
+    return random(5, velocidadMaximaComputadora); // Generar una velocidad entre 2 y el máximo definido
+}
+
 
 // Verificar colisiones con las paredes
 function verificarColisionPared() {
@@ -158,6 +176,7 @@ function manejarDerrota() {
 
 // Dibujar las raquetas
 function dibujarRaqueta(x, y, imgRaqueta) {
+    imageMode(CORNER);
     image(imgRaqueta, x, y, anchoRaqueta, altoRaqueta);
 }
 
@@ -231,10 +250,14 @@ function verificarColisionRaqueta(x, y) {
         velocidadXPelota = constrain(velocidadXPelota, -velocidadMaximaPelota, velocidadMaximaPelota);
         velocidadYPelota = constrain(velocidadYPelota, -velocidadMaximaPelota, velocidadMaximaPelota);
 
-        velocidadComputadora += incrementoVelocidadRaqueta;
-        velocidadComputadora = min(velocidadComputadora, velocidadMaximaComputadora);
+        // Cambiar la velocidad de la CPU al colisionar
+        if (x === xComputadora) {
+            velocidadComputadora = generarVelocidadAleatoriaCPU();
+            console.log(velocidadComputadora);
+        }
     }
 }
+
 
 // Mostrar pantalla de derrota
 function mostrarPantallaPerdida() {
