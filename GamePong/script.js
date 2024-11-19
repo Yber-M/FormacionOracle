@@ -11,6 +11,7 @@ let velocidadMaximaPelota = 15;
 
 let mostrarDerrota = false; // Controla si se muestra la pantalla de derrota
 let mostrarVictoria = false; // Controla si se muestra la pantalla de victoria
+let confetiLanzado = false; // Controla si ya se lanzó el confeti
 
 // Variables para las raquetas
 let anchoRaqueta = 15;
@@ -32,6 +33,17 @@ let incrementoVelocidadRaqueta = 2;
 let puntosJugador = 0;
 let puntosComputadora = 0;
 
+// Imagen de fondo
+let imgFondo;
+
+function preload() {
+    // Cargar la imagen de fondo
+    imgFondo = loadImage("Sprites/fondo2.png");
+    imgRaquetaJugador = loadImage('Sprites/barra1.png');
+    imgRaquetaComputadora = loadImage('Sprites/barra2.png');
+    imgPelota = loadImage('Sprites/bola.png');
+}
+
 function setup() {
     createCanvas(anchoCanvas, altoCanvas);
     reiniciarJuego();
@@ -43,6 +55,9 @@ function setup() {
 }
 
 function draw() {
+    // Dibujar el fondo
+    background(imgFondo);
+
     if (mostrarDerrota) {
         mostrarPantallaPerdida();
         return;
@@ -53,7 +68,6 @@ function draw() {
         return;
     }
 
-    background(0);
     mostrarPuntuacion();
 
     if (juegoPausado) {
@@ -65,8 +79,8 @@ function draw() {
     moverPelota();
     verificarColisionPared();
 
-    dibujarRaqueta(xJugador, yJugador);
-    dibujarRaqueta(xComputadora, yComputadora);
+    dibujarRaqueta(xJugador, yJugador, imgRaquetaJugador);
+    dibujarRaqueta(xComputadora, yComputadora, imgRaquetaComputadora);
 
     moverRaquetaJugador();
     moverRaquetaComputadora();
@@ -75,10 +89,10 @@ function draw() {
     verificarColisionRaqueta(xComputadora, yComputadora);
 }
 
+
 // Función para dibujar la pelota
 function dibujarPelota() {
-    fill(255);
-    circle(xPelota, yPelota, diametroPelota);
+    image(imgPelota, xPelota - diametroPelota / 2, yPelota - diametroPelota / 2, diametroPelota, diametroPelota);
 }
 
 // Función para mover la pelota
@@ -102,6 +116,29 @@ function verificarColisionPared() {
     }
 }
 
+// Manejar victoria del jugador
+function manejarVictoria() {
+    juegoPausado = true;
+    mostrarVictoria = true;
+
+    if (!confetiLanzado) {
+        lanzarConfeti(); // Lanzar confeti al anotar un punto
+        confetiLanzado = true; // Marcar como lanzado
+    }
+
+    // Reiniciar posiciones
+    xPelota = xJugador + anchoRaqueta + diametroPelota / 2;
+    yPelota = height / 2;
+    yJugador = height / 2 - altoRaqueta / 2;
+    xComputadora = width - anchoRaqueta - 30;
+    yComputadora = height / 2 - altoRaqueta / 2;
+
+    // Reiniciar velocidades
+    velocidadXPelota = 3;
+    velocidadYPelota = 3;
+    velocidadComputadora = 4;
+}
+
 // Manejar derrota del jugador
 function manejarDerrota() {
     juegoPausado = true;
@@ -120,9 +157,8 @@ function manejarDerrota() {
 }
 
 // Dibujar las raquetas
-function dibujarRaqueta(x, y) {
-    fill(255);
-    rect(x, y, anchoRaqueta, altoRaqueta);
+function dibujarRaqueta(x, y, imgRaqueta) {
+    image(imgRaqueta, x, y, anchoRaqueta, altoRaqueta);
 }
 
 // Control de la raqueta del jugador
@@ -200,24 +236,6 @@ function verificarColisionRaqueta(x, y) {
     }
 }
 
-// Manejar victoria del jugador
-function manejarVictoria() {
-    juegoPausado = true;
-    mostrarVictoria = true;
-
-    lanzarConfeti();
-
-    xPelota = xJugador + anchoRaqueta + diametroPelota / 2;
-    yPelota = height / 2;
-    yJugador = height / 2 - altoRaqueta / 2;
-    xComputadora = width - anchoRaqueta - 30;
-    yComputadora = height / 2 - altoRaqueta / 2;
-
-    velocidadXPelota = 3;
-    velocidadYPelota = 3;
-    velocidadComputadora = 4;
-}
-
 // Mostrar pantalla de derrota
 function mostrarPantallaPerdida() {
     background(255, 0, 0);
@@ -259,6 +277,7 @@ function iniciarConEspacio(event) {
             mostrarDerrota = false;
         } else if (mostrarVictoria) {
             mostrarVictoria = false;
+            confetiLanzado = false; // Resetear confeti
         } else if (juegoPausado) {
             juegoPausado = false;
         }
