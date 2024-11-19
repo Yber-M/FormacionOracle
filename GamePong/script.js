@@ -1,13 +1,13 @@
 // Variables para el juego
-let anchoCanvas = 1000;
-let altoCanvas = 500;
+let anchoCanvas = 800;
+let altoCanvas = 400;
 let xPelota, yPelota; 
 let velocidadXPelota = 3; // Velocidad inicial más baja
 let velocidadYPelota = 3; // Velocidad inicial más baja
-let incrementoVelocidad = 1; // Incremento de velocidad en cada colisión
-let diametroPelota = 20;
+let incrementoVelocidad = 0.3; // Incremento de velocidad en cada colisión (reducido para evitar problemas)
+let diametroPelota = 30;
 let juegoPausado = true; // Inicia en pausa con mensaje de inicio
-let velocidadMaximaPelota = 10; // Velocidad máxima que la pelota puede alcanzar
+let velocidadMaximaPelota = 8; // Velocidad máxima que la pelota puede alcanzar (ajustada)
 
 // Variables para las raquetas
 let anchoRaqueta = 15;
@@ -21,9 +21,9 @@ let raquetaJugadorVelocidad = 10; // Aumentar la velocidad del jugador
 // Raqueta de la computadora
 let xComputadora;
 let yComputadora;
-let velocidadComputadora = 3;
-let velocidadMaximaComputadora = 8; // Velocidad máxima que la raqueta del adversario puede alcanzar
-let incrementoVelocidadRaqueta = 0.5; // Incremento de velocidad para la raqueta del adversario
+let velocidadComputadora = 4;
+let velocidadMaximaComputadora = 10; // Velocidad máxima que la raqueta del adversario puede alcanzar
+let incrementoVelocidadRaqueta = 1; // Incremento de velocidad para la raqueta del adversario
 
 // Puntuaciones
 let puntosJugador = 0;
@@ -80,14 +80,14 @@ function moverPelota() {
 }
 
 function verificarColisionPared() {
-  if (yPelota < 0 || yPelota > height) {
+  if (yPelota - diametroPelota / 2 < 0 || yPelota + diametroPelota / 2 > height) {
     velocidadYPelota *= -1;
   }
   
-  if (xPelota < 0) {
+  if (xPelota - diametroPelota / 2 < 0) {
     puntosComputadora++;
     pausarJuego("computadora");
-  } else if (xPelota > width) {
+  } else if (xPelota + diametroPelota / 2 > width) {
     puntosJugador++;
     pausarJuego("jugador");
   }
@@ -115,9 +115,9 @@ function moverRaquetaJugador() {
 function moverRaquetaJugadorKeyDown(event) {
   // Detecta si se presionan las teclas de flecha
   if (event.key === "ArrowUp") {
-    raquetaJugadorVelocidad = -7; // Mover hacia arriba con más velocidad
+    raquetaJugadorVelocidad = -10; // Mover hacia arriba con más velocidad
   } else if (event.key === "ArrowDown") {
-    raquetaJugadorVelocidad = 7; // Mover hacia abajo con más velocidad
+    raquetaJugadorVelocidad = 10; // Mover hacia abajo con más velocidad
   }
 }
 
@@ -134,12 +134,38 @@ function moverRaquetaComputadora() {
   } else if (yPelota > yComputadora + altoRaqueta) {
     yComputadora += velocidadComputadora;
   }
+  
+  // Evitar que la raqueta salga del borde superior o inferior
+  if (yComputadora < 0) {
+    yComputadora = 0;
+  }
+  if (yComputadora + altoRaqueta > height) {
+    yComputadora = height - altoRaqueta;
+  }
 }
 
 function verificarColisionRaqueta(x, y) {
-  if (xPelota > x && xPelota < x + anchoRaqueta && 
-      yPelota > y && yPelota < y + altoRaqueta) {
-    velocidadXPelota *= -1; // Cambia la dirección horizontal
+  // Calcular los bordes de la pelota
+  let izquierdaPelota = xPelota - diametroPelota / 2;
+  let derechaPelota = xPelota + diametroPelota / 2;
+  let arribaPelota = yPelota - diametroPelota / 2;
+  let abajoPelota = yPelota + diametroPelota / 2;
+
+  // Calcular los bordes de la raqueta
+  let izquierdaRaqueta = x;
+  let derechaRaqueta = x + anchoRaqueta;
+  let arribaRaqueta = y;
+  let abajoRaqueta = y + altoRaqueta;
+
+  // Verificar si la pelota está colisionando con la raqueta
+  if (
+    derechaPelota > izquierdaRaqueta &&
+    izquierdaPelota < derechaRaqueta &&
+    abajoPelota > arribaRaqueta &&
+    arribaPelota < abajoRaqueta
+  ) {
+    // Cambia la dirección horizontal
+    velocidadXPelota *= -1;
 
     // Aumentar la velocidad de la pelota, pero con límite
     velocidadXPelota += (velocidadXPelota > 0 ? incrementoVelocidad : -incrementoVelocidad);
@@ -170,10 +196,10 @@ function pausarJuego(puntoDe) {
     velocidadXPelota = -3; // Reinicia con velocidad inicial
   }
   velocidadYPelota = 3; // Velocidad inicial vertical
-  yPelota = yJugador + altoRaqueta / 2; // Alineada con el jugador
+  yPelota = height / 2; // Colocar la pelota en el centro
 
   // Reiniciar la velocidad de la raqueta de la computadora
-  velocidadComputadora = 3;
+  velocidadComputadora = 4;
 }
 
 function iniciarConEspacio(event) {
