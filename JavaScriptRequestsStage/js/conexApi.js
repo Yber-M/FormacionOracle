@@ -6,13 +6,13 @@ async function listaVideo() {
     return conexionConvert;
 }
 
-async function crearVideo(titulo, descripcion, url, imagen) {
+async function enviarVideo(titulo, descripcion, url, imagen) {
     const conexion = await fetch('http://localhost:3001/videos', {
         method: 'POST',
-        headers: { 'Content=type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             titulo: titulo,
-            descripcion: descripcion,
+            descripcion: `${descripcion} mil visualizaciones`,
             url: url,
             imagen: imagen
         })
@@ -23,7 +23,7 @@ async function crearVideo(titulo, descripcion, url, imagen) {
 }
 
 export const conexApi = {
-    listaVideo, crearVideo
+    listaVideo, enviarVideo
 }
 
 listaVideo();

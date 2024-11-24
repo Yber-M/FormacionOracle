@@ -10,7 +10,7 @@ function crearCard(titulo, descripcion, url, imagen) {
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen></iframe>
     <div class="descripcion-video">
-        <img src="./img/logo.png" alt="logo canal alura">
+        <img src="${imagen}" alt="logo canal alura">
         <h3>${titulo}</h3>
         <p>${descripcion}</p>
     </div>`;
