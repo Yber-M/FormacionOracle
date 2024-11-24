@@ -12,7 +12,7 @@ async function enviarVideo(titulo, descripcion, url, imagen) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             titulo: titulo,
-            descripcion: `${descripcion} mil visualizaciones`,
+            descripcion: descripcion,
             url: url,
             imagen: imagen
         })
@@ -22,8 +22,15 @@ async function enviarVideo(titulo, descripcion, url, imagen) {
     return conexionConvert;
 }
 
+async function buscarVideo(palabraClave) {
+    const conexion = await fetch(`http://localhost:3001/videos?q=${palabraClave}`);
+    const conexionConvert = conexion.json();
+
+    return conexionConvert;
+}
+
 export const conexApi = {
-    listaVideo, enviarVideo
+    listaVideo, enviarVideo, buscarVideo
 }
 
 listaVideo();

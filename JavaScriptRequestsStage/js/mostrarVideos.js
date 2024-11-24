@@ -2,7 +2,7 @@ import { conexApi } from "./conexApi.js";
 
 const lista = document.querySelector('[data-lista]');
 
-function crearCard(titulo, descripcion, url, imagen) {
+export function crearCard(titulo, descripcion, url, imagen) {
     const video = document.createElement('li');
     video.className = "videos__item";
     video.innerHTML = `<iframe width="100%" height="72%" src="${url}"
