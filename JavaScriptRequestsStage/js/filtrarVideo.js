@@ -20,6 +20,14 @@ async function filtrarVideo(evento) {
     }
 }
 
+const inputEle = document.getElementById('buscar');
+inputEle.addEventListener('keyup', function (enter) {
+    var key = enter.which || enter.keyCode;
+    if (key == 13) {
+        filtrarVideo(enter);
+    }
+})
+
 const boton = document.querySelector('[data-boton-busqueda]');
 
 boton.addEventListener('click', evento => filtrarVideo(evento));
