@@ -10,14 +10,15 @@ async function crearVideo(evento) {
     const imagen = document.querySelector('[data-img]').value;
 
     const visualizaciones = Math.floor(Math.random() * 100 + 1).toString();
-
-    console.log(visualizaciones);
-
     const descripcion = `${visualizaciones} mil visualizaciones`;
 
-    conexApi.enviarVideo(titulo, descripcion, url, imagen);
+    try {
+        await conexApi.enviarVideo(titulo, descripcion, url, imagen);
+        window.location.href = "../pages/envio-concluido.html";
 
-    window.location.href = "../pages/envio-concluido.html"
+    } catch (error) {
+        alert(error);
+    }
 }
 
 formulario.addEventListener('submit', evento => crearVideo(evento));

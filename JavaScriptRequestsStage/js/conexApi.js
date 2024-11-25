@@ -19,6 +19,10 @@ async function enviarVideo(titulo, descripcion, url, imagen) {
     });
     const conexionConvert = conexion.json();
 
+    if (!conexion.ok) {
+        throw new Error('Ha ocurrido un error al enviar el video');
+    }
+
     return conexionConvert;
 }
 
